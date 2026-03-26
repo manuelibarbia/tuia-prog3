@@ -24,5 +24,6 @@ class DepthFirstSearch:
         # Initialize frontier with the root node
         # TODO Complete the rest!!
         # ...
+        .
 
         return NoSolution(expanded)
