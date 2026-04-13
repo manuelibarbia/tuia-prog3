@@ -111,3 +111,14 @@ class Grid:
 
     def __repr__(self) -> str:
         return f"Grid([[...], ...], {self.initial}, {self.end})"
+    
+    def heuristica(self, pos: tuple[int, int]) -> int:
+        """Distancia manhattan desde un punto inicial, hasta el objetivo o meta
+        
+        Args: Tupla compuesta por dos enteros (eje x, eje y)
+
+        Returns: Devuelve la distancia en linea recta desde el punto inicial hasta la meta
+        """
+
+        return abs(pos[0] - self.end[0]) + abs(pos[1] - self.end[1])
+        
