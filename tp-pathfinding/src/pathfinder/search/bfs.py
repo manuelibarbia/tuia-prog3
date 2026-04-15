@@ -24,7 +24,6 @@ class BreadthFirstSearch:
         while not frontera.is_empty():
             
             # 3. Sacamos el nodo más antiguo de la cola (FIFO)
-            # Nota: Asegúrate de que el método de tu QueueFrontier se llame pop() o remove()
             nodo_estudio = frontera.remove()
 
             # 4. Si el nodo que estamos estudiando ES el objetivo, devolvemos la solución
