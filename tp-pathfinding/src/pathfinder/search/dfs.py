@@ -18,12 +18,44 @@ class DepthFirstSearch:
         # Initialize root node
         root = Node("", state=grid.initial, cost=0, parent=None, action=None)
 
-        # Initialize expanded with the empty dictionary
-        expanded = dict()
+        # Initialize reached with the initial state
+        reached = {}
+        reached[root.state] = True
 
-        # Initialize frontier with the root node
-        # TODO Complete the rest!!
-        # ...
-        pass
+        # Inicializamos la frontera con una pila (LIFO)
+        frontera = StackFrontier()
+        frontera.add(root)
 
-        return NoSolution(expanded)
+        # Mientras la pila NO esté vacía, seguí explorando
+        while not frontera.is_empty():
+            
+            # Sacamos el nodo más reciente de la pila (LIFO)
+            nodo_estudio = frontera.remove()
+
+            # Si este nodo ES el objetivo, devolvemos la solución
+            if grid.objective_test(nodo_estudio.state):
+                return Solution(nodo_estudio, reached)
+
+            # Si NO, exploramos sus vecinos
+            for action in grid.actions(nodo_estudio.state):
+                
+                # Calculamos el nuevo estado después de la acción
+                nuevo_estado = grid.result(nodo_estudio.state, action)
+
+                # Solo avanzamos si este estado nunca fue visitado
+                if nuevo_estado not in reached:
+                    # Calculamos el costo
+                    costo_mov = grid.individual_cost(nodo_estudio.state, action)
+                    nuevo_costo = nodo_estudio.cost + costo_mov
+
+                    # Marcamos como alcanzado
+                    reached[nuevo_estado] = nuevo_costo
+                    
+                    # Creamos el nodo hijo
+                    nodo_hijo = Node("", state=nuevo_estado, cost=nuevo_costo, parent=nodo_estudio, action=action)
+
+                    # Lo añadimos al tope de la pila para explorarlo después
+                    frontera.add(nodo_hijo)
+
+        # Si la pila se vacía y no encontramos solución, devolvemos NoSolution
+        return NoSolution(reached)
